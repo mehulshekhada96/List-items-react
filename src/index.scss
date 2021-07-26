@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+$ubuntu: 'Ubuntu', sans-serif;
+body{
+    padding: 0;
+    margin: 0;
+    font-family: $ubuntu;
+    // background-color: #94f2e7;
+    letter-spacing: 0.03rem;
+}
+
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+input{
+  margin: 0.5rem auto;
+}
+button[type='submit']{
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  font-weight: 900;
+}
+
+@media  screen and (min-width: 1024px) {
+  form.form-control {
+    width: 70%;
+    margin: 1rem 12%  !important;
+    padding: 0.5rem 5rem !important;
+  }
+}
