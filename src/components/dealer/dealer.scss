@@ -318,3 +318,8 @@ tbody{
 // .display_none{
 //   display: none;
 // }
+.nofilter {
+  position: absolute;
+  right: 1rem;
+  z-index: 15;
+}

@@ -139,22 +139,23 @@ table thead td .edit-delete, table tbody td .edit-delete,
 .dealer-table thead td .edit-delete,
 .dealer-table tbody td .edit-delete {
   display: flex;
-  width: 4rem;
   justify-content: center;
-  align-items: center;
+  align-items: center !important;
 }
 
-table thead td .edit-delete form, table tbody td .edit-delete form,
-.dealer-table thead td .edit-delete form,
-.dealer-table tbody td .edit-delete form {
-  padding: 0 !important;
+table thead td .fa-trash-alt, table tbody td .fa-trash-alt,
+.dealer-table thead td .fa-trash-alt,
+.dealer-table tbody td .fa-trash-alt {
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0.5rem;
 }
 
 table thead td .edit, table tbody td .edit,
 .dealer-table thead td .edit,
 .dealer-table tbody td .edit {
   padding: 0;
-  margin: 0 0.2rem;
+  margin: 0 0.5rem;
   background: none;
   border: none;
 }
@@ -338,4 +339,10 @@ tbody td:first-child {
 
 .dealer-form {
   z-index: 10;
+}
+
+.nofilter {
+  position: absolute;
+  right: 1rem;
+  z-index: 15;
 }

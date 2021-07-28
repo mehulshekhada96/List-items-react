@@ -1,6 +1,6 @@
 import { useState } from "react";
 function UploadData(props) {
-  const { showform } = props;
+  const { showform,setPath } = props;
   const [selectedFile, setSelectedFile] = useState();
   // const [isFilePicked, setIsFilePicked] = useState(false);
 
@@ -20,6 +20,7 @@ function UploadData(props) {
       .then((response) => response.json())
       .then((result) => {
         console.log("Success:", result);
+        setPath('/dealers')
       })
       .catch((error) => {
         console.error("Error:", error);

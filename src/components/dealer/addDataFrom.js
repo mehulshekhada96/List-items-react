@@ -2,69 +2,75 @@ import { useState, useEffect } from "react";
 import { $ } from "react-jquery-plugin";
 
 function AddDataForm(props) {
-  const { showform } = props;
+  const { showform, setPath } = props;
   const [customerCode, setCustomerCode] = useState("");
-const [company, setCompany] = useState("");
-const [shipToName, setShipToName] = useState("");
-const [physicalAddress, setPhysicalAddress] = useState("");
-const [city, setCity] = useState("");
-const [state, setState] = useState("");
-const [zip, setZip] = useState("");
-const [areaCode, setAreaCode] = useState("");
-const [phoneExchange, setPhoneExchange] = useState("");
-const [physicalPhone, setPhysicalPhone] = useState("");
-const [emailAddress, setEmailAdd1] = useState("");
-const [emailAddress2, setEmailAdd2] = useState("");
-const [profileDesc, setProfileDesc] = useState("");
-const [dist, setDist] = useState("");
-const [account, setAccount] = useState("");
-const [display, setDisplay] = useState("");
-const [date, setDate] = useState("");
-const [endDate, setEndDate] = useState("");
-const [crm, setCrm] = useState("");
-const [website, setWebsite] = useState("");
-const [lat, setLat] = useState("");
-const [long, setLong] = useState("");
+  const [company, setCompany] = useState("");
+  const [shipToName, setShipToName] = useState("");
+  const [physicalAddress, setPhysicalAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [areaCode, setAreaCode] = useState("");
+  const [phoneExchange, setPhoneExchange] = useState("");
+  const [physicalPhone, setPhysicalPhone] = useState("");
+  const [emailAddress, setEmailAdd1] = useState("");
+  const [emailAddress2, setEmailAdd2] = useState("");
+  const [profileDesc, setProfileDesc] = useState("");
+  const [dist, setDist] = useState("");
+  const [account, setAccount] = useState("");
+  const [display, setDisplay] = useState("");
+  const [date, setDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [crm, setCrm] = useState("");
+  const [website, setWebsite] = useState("");
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
 
-const data = {
-  customerCode: customerCode,
-  company: company,
-  shipToName: shipToName,
-  physicalAddress: physicalAddress,
-  city: city,
-  state: state,
-  zip: zip,
-  areaCode,
-  phoneExchange,
-  physicalPhone,
-  emailAddress,
-  emailAddress2,
-  profileDesc,
-  dist,
-  account,
-  display,
-  date,
-  endDate,
-  crm,
-  website,
-  lat,
-  long,
-
-};
-  const submitAddDataForm =  () => {
-    fetch("http://localhost:5000/dealer-data",{
+  const data = {
+    customerCode: customerCode,
+    company: company,
+    shipToName: shipToName,
+    physicalAddress: physicalAddress,
+    city: city,
+    state: state,
+    zip: zip,
+    areaCode,
+    phoneExchange,
+    physicalPhone,
+    emailAddress,
+    emailAddress2,
+    profileDesc,
+    dist,
+    account,
+    display,
+    date,
+    endDate,
+    crm,
+    website,
+    lat,
+    long,
+  };
+  const submitAddDataForm = (e) => {
+    e.preventDefault()
+    fetch("http://localhost:5000/dealer-data", {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    });
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data.error);
+        setPath("/dealers");
+      })
+      .catch((error) => alert(error));
   };
   useEffect(() => {
     let bodyHeight = document.body.scrollHeight;
     $(".overlay").css({ height: bodyHeight });
-    $('input[type=text]').keyup(function () {
+    $("input[type=text]").keyup(function () {
       $(this).val($(this).val().toUpperCase());
     });
   }, []);
@@ -85,7 +91,6 @@ const data = {
             onChange={(event) => {
               setCustomerCode(event.target.value);
             }}
-         
             required
           />
         </div>
@@ -98,7 +103,6 @@ const data = {
             onChange={(event) => {
               setCompany(event.target.value);
             }}
-         
           />
         </div>
         <div className="inputDiv">
@@ -110,7 +114,6 @@ const data = {
             onChange={(event) => {
               setShipToName(event.target.value);
             }}
-          
           />
         </div>
         <div className="inputDiv">
@@ -122,7 +125,6 @@ const data = {
             onChange={(event) => {
               setPhysicalAddress(event.target.value);
             }}
-         
           />
         </div>
         <div className="inputDiv">
@@ -134,7 +136,6 @@ const data = {
             onChange={(event) => {
               setCity(event.target.value);
             }}
-          
           />
         </div>
         <div className="inputDiv">
@@ -146,7 +147,6 @@ const data = {
             onChange={(event) => {
               setState(event.target.value);
             }}
-        
           />
         </div>
         <div className="inputDiv">
@@ -158,7 +158,6 @@ const data = {
             onChange={(event) => {
               setZip(event.target.value);
             }}
-       
           />
         </div>
         <div className="inputDiv">
@@ -170,7 +169,6 @@ const data = {
             onChange={(event) => {
               setAreaCode(event.target.value);
             }}
-         
           />
         </div>
         <div className="inputDiv">
@@ -182,7 +180,6 @@ const data = {
             onChange={(event) => {
               setPhoneExchange(event.target.value);
             }}
-          
           />
         </div>
         <div className="inputDiv">
@@ -194,7 +191,6 @@ const data = {
             onChange={(event) => {
               setPhysicalPhone(event.target.value);
             }}
-          
           />
         </div>
         <div className="inputDiv">
@@ -206,7 +202,6 @@ const data = {
             onChange={(event) => {
               setEmailAdd1(event.target.value);
             }}
-       
           />
         </div>
         <div className="inputDiv">
@@ -218,7 +213,6 @@ const data = {
             onChange={(event) => {
               setEmailAdd2(event.target.value);
             }}
-         
           />
         </div>
         <div className="inputDiv">
@@ -230,7 +224,6 @@ const data = {
             onChange={(event) => {
               setProfileDesc(event.target.value);
             }}
-         
           />
         </div>
         <div className="inputDiv">
@@ -242,7 +235,6 @@ const data = {
             onChange={(event) => {
               setDist(event.target.value);
             }}
-   
           />
         </div>
         <div className="inputDiv">
@@ -254,7 +246,6 @@ const data = {
             onChange={(event) => {
               setAccount(event.target.value);
             }}
-   
           />
         </div>
         <div className="inputDiv">
@@ -266,7 +257,6 @@ const data = {
             onChange={(event) => {
               setDisplay(event.target.value);
             }}
-   
           />
         </div>
         <div className="inputDiv">
@@ -278,7 +268,6 @@ const data = {
             onChange={(event) => {
               setDate(event.target.value);
             }}
-      
           />
         </div>
         <div className="inputDiv">
@@ -290,7 +279,6 @@ const data = {
             onChange={(event) => {
               setEndDate(event.target.value);
             }}
-    
           />
         </div>
         <div className="inputDiv">
@@ -302,17 +290,10 @@ const data = {
             onChange={(event) => {
               setCrm(event.target.value);
             }}
-     
           />
         </div>
         <div className="inputDiv">
-          <input
-            className="form-control"
-            type="text"
-            name=""
-            placeholder=""
-  
-          />
+          <input className="form-control" type="text" name="" placeholder="" />
         </div>
 
         <div className="inputDiv">
@@ -324,7 +305,6 @@ const data = {
             onChange={(event) => {
               setWebsite(event.target.value);
             }}
-  
           />
         </div>
         <div className="inputDiv">
@@ -336,7 +316,6 @@ const data = {
             onChange={(event) => {
               setLat(event.target.value);
             }}
-        
           />
         </div>
         <div className="inputDiv">
@@ -348,7 +327,6 @@ const data = {
             onChange={(event) => {
               setLong(event.target.value);
             }}
-          
           />
         </div>
 

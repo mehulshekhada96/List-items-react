@@ -18,3 +18,26 @@
             <i className="fas fa-circle dot"></i>{" "}
           </span>
         </div>
+
+        $('#custCode').click(()=>{
+          $(this).hide();
+          $('#-custCode').show();
+       });
+       $('#-custCode').click(()=>{
+         $(this).hide();
+         $('#custCode').show();
+      });
+
+      // const [validated, setValidated] = useState(false);
+
+      // const handleSubmit = (event) => {
+      //   const form = event.currentTarget;
+      //   if (form.checkValidity() === false) {
+      //     event.preventDefault();
+      //     event.stopPropagation();
+      //   }
+    
+      //   setValidated(true);
+      // };
+      //  useEffect()
+   

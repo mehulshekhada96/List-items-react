@@ -3,12 +3,36 @@ import { $ } from 'react-jquery-plugin';
 
 
 function TableHead (props){
-    const {cities, states, zips, areaCode, handleFilterChange} = props;
+    const {cities, states, zips, areaCode, handleFilterChange, sortby} = props;
     const toggler = (e) => {
       let select = e.target.parentNode.nextElementSibling
-      $(select).toggle()
+      $(select).toggle();
     }
- 
+    //   $('#custCode').click(()=>{
+    //      $(this).toggle();
+    //      $('#-custCode').show();
+    //   });
+    //   $('#-custCode').click(()=>{
+    //     $(this).hide();
+    //     $('#custCode').show();
+    //  });
+  
+    
+    
+    //   $('#companyName').hide();
+    //   $('#-companyName').show();
+
+    //   $('#companyName').show();
+    //   $('#-companyName').hide();
+  
+    
+    //   $('#shipToName').hide();
+    //   $('#-shipToName').show();
+  
+    //   $('#shipToName').show();
+    //   $('#-shipToName').hide();
+   
+    
     useEffect(()=>{
   
     })
@@ -22,12 +46,12 @@ function TableHead (props){
                   
                   Customer Code
                   <i
-                    // onClick='sortby("custCode")'
+                    onClick={sortby}
                     id="custCode"
                     className="fas fa-sort-alpha-down"
                   ></i>
                   <i
-                    // onClick={sortby("-custCode")}
+                    onClick={sortby}
                     id="-custCode"
                     className="fas fa-sort-alpha-up"
                   ></i>
@@ -38,12 +62,12 @@ function TableHead (props){
                   
                   Company Name
                   <i
-                    // onClick='sortby("companyName")'
+                    onClick={sortby}
                     id="companyName"
                     className="fas fa-sort-alpha-down"
                   ></i>
                   <i
-                    // onClick='sortby("-companyName")'
+                    onClick={sortby}
                     id="-companyName"
                     className="fas fa-sort-alpha-up"
                   ></i>
@@ -53,12 +77,12 @@ function TableHead (props){
                 <span className="filterTag">
                   Ship to Name
                   <i
-                    // onClick='sortby("shipToName")'
+                    onClick={sortby}
                     id="shipToName"
                     className="fas fa-sort-alpha-down"
                   ></i>
                   <i
-                    // onClick='sortby("-shipToName")'
+                    onClick={sortby}
                     id="-shipToName"
                     className="fas fa-sort-alpha-up"
                   ></i>
@@ -94,9 +118,10 @@ function TableHead (props){
                   State <i className="fas fa-filter" onClick={toggler}></i>
                 </span>
                 <select
-                  // onChange="this.form.submit()"
+         
                   name="stateFilter"
                   onChange={handleFilterChange}
+                  
                   id="statefilter"
                   className="filter form-select"
                   size="10"

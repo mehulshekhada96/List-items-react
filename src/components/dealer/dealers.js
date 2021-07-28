@@ -8,9 +8,9 @@ import SearchNearBy from "./searchnearby";
 import UploadData from "./uploadNewData";
 import AddDataForm from "./addDataFrom";
 import EditDealerForm from "./editDealerForm";
+import NoFilter from "./nofilter";
 
-
-function Dealers() {
+function Dealers({ path, setPath }) {
   const [dealers, setdealers] = useState([]);
   const [cities, setCities] = useState([]);
   const [states, setStates] = useState([]);
@@ -23,8 +23,11 @@ function Dealers() {
   const [editId, setEditId] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [page, setPage] = useState(current);
-
+  const [sort, setSort] = useState("");
   const [filterData, setFilterData] = useState({});
+  const [pincode, setPincode] = useState();
+  const [radius, setRadius] = useState();
+  const [searchbypincode, setSearchbypincode] = useState(false)
   const filters = {
     cityFilter: [],
     stateFilter: [],
@@ -36,11 +39,10 @@ function Dealers() {
     setShowForm(!showForm);
   };
   const handleFilterChange = (e) => {
-    
-    console.log(e.target.closest('form'));
+    // console.log(e.target.closest('form'));
     // e.target.closest('form').submit();
     let value = Array.from(e.target.selectedOptions, (option) => option.value);
-    console.log(e.target.name, ":", value);
+    // console.log(e.target.name, ":", value);
     const filterName = e.target.name;
     if (filterName === "cityFilter") {
       filters.cityFilter.push(...value);
@@ -54,38 +56,69 @@ function Dealers() {
     if (filterName === "areaFilter") {
       filters.areaFilter.push(...value);
     }
-    console.log(filters);
+    // console.log(filters);
     setFilterData(filters);
   };
-  console.log(filterData);
+  function removeFilter() {
+    setFilterData({});
+  }
+  // console.log(filterData);
   const [showEditForm, setShowEditForm] = useState(false);
   const editDealerForm = (event) => {
     event.preventDefault();
-    console.log(event.target.id);
+    // console.log(event.target.id);
     setEditId(event.target.id);
     setShowEditForm(!showEditForm);
   };
   const deleteData = (event) => {
     event.preventDefault();
     setDeleteId(event.target.id);
-    console.log("delete this", deleteId);
+    // console.log("delete this", deleteId);
   };
   function setPageCurrent(pageNumber) {
     setCurrent(pageNumber);
     setPage(pageNumber);
-    console.log("setpagecurretn", pageNumber);
+    // console.log("setpagecurretn", pageNumber);
   }
-
+  function sortby(event) {
+    setSort(event.target.id);
+  }
+ 
+  function changePincode(e){
+    setPincode(e.target.value)
+  }
+  function changeRadius(e){
+    setRadius(e.target.value)
+  }
+  console.log(pincode, Number(radius));
+  function searchby(e) {
+     e.preventDefault();
+     setSearchbypincode(true)
+     console.log(searchbypincode)
+  }
   useEffect(() => {
-    console.log("page in effect", page);
-    fetch(`http://localhost:5000/delete/${deleteId}`);
-    fetch(
-      `http://localhost:5000/dealers/${page}`,
-     
-    )
+    // console.log("page in effect", page);
+    if (deleteId) {
+      fetch(`http://localhost:5000/delete/${deleteId}`);
+    }
+
+    var url = new URL(`http://localhost:5000/dealers/${page}?`),
+      params = {
+    
+        sort: sort,
+        cityFilter: filterData.cityFilter,
+        stateFilter: filterData.stateFilter,
+        areaFilter: filterData.areaFilter,
+        zipFilter: filterData.zipFilter
+       
+      };
+    Object.keys(params).forEach((key) =>
+      url.searchParams.append(key, params[key])
+    );
+    fetch(url)
       .then((response) => response.json())
       .then((dealers) => {
-        console.log(1, dealers);
+        // console.log(1, dealers);
         setdealers(dealers.dealers);
         setAreaCode(dealers.areaCodes);
         setCities(dealers.cities);
@@ -95,6 +128,7 @@ function Dealers() {
         setPages(dealers.pages);
         setCount(dealers.count);
         setPage(Number(dealers.current));
+        setPath("/dealers");
       })
       .catch((err) => console.log(err));
 
@@ -113,19 +147,29 @@ function Dealers() {
     scrollArrow.addEventListener("click", () => {
       table[0].scrollTo(0, 0);
     });
-  }, [page, deleteId, filterData]);
-
+    let select1 = document.getElementsByTagName("select");
+    for (let e of select1) {
+      e.style.display = "none";
+    }
+  }, [page, deleteId, filterData, sort, count,setPath]);
+  
   function goToPage(event) {
     const pageNumber = event.target.getAttribute("data-page");
-    console.log("Target pageNumber:", Number(pageNumber));
+    // console.log("Target pageNumber:", Number(pageNumber));
     setPage(Number(pageNumber));
   }
 
   return (
     <>
       <div className="parent">
-        <form action="http://localhost:5000/dealers" name="sortFilter" method="GET" id="filterForm">
+        <form
+          action="http://localhost:5000/dealers"
+          name="sortFilter"
+          method="GET"
+          id="filterForm"
+        >
           <div className="table-container">
+            <NoFilter removeFilter={removeFilter} />
             <Table
               className="table dealer-table table-secondary"
               striped
@@ -138,19 +182,22 @@ function Dealers() {
                 zips={zips}
                 areaCode={areaCode}
                 handleFilterChange={handleFilterChange}
+                sortby={sortby}
               />
               <tbody>
                 <Tablebody
                   dealers={dealers}
                   editForm={editDealerForm}
                   deleteData={deleteData}
-                  filterData = {filterData}
+                  filterData={filterData}
                 />
               </tbody>
             </Table>
           </div>
         </form>
-        {showForm ? <AddDataForm showform={showForm1} /> : null}
+        {showForm ? (
+          <AddDataForm setPath={setPath} showform={showForm1} />
+        ) : null}
         {showEditForm ? (
           <EditDealerForm
             dealers={dealers}
@@ -175,8 +222,12 @@ function Dealers() {
         goToPage={goToPage}
       />
       <div className="bold text-center">Total Dealers = {count} Found</div>
-      <SearchNearBy />
-      <UploadData showform={showForm1} />
+      <SearchNearBy
+        changeRadius={changeRadius} 
+        changePincode={changePincode}
+        searchby={searchby}
+      />
+      <UploadData setPath={setPath} showform={showForm1} />
     </>
   );
 }

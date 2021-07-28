@@ -1,38 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Container } from "react-bootstrap";
 // We use Route in order to define the different routes of our application
-import { Route } from "react-router-dom";
+// import { Route } from "react-router-dom";
 
 // We import all the components we need in our app
 import Navbar from "./components/Navbar/Navbar";
 import Signin from "./components/signin/signinform";
 import Register from "./components/register/register";
-import Admin from './components/admin/admin';
+import Admin from "./components/admin/admin";
 import Dealers from "./components/dealer/dealers";
 import ErrorBoundry from "./components/ErrorBoundary";
 // import ErrorContainer from "./components/error/error";
 const App = () => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState("");
+  const [path, setPath] = useState("/signin");
+  console.log(isSignedIn);
   return (
-      <Container >
-      <Navbar />
+    <Container>
+      <Navbar user={user} path={path} setPath={setPath} />
       {/* <ErrorContainer error='Hello' errorType='Success' /> */}
-      <Route path='/signin'>
-        <Signin />
-      </Route>
-      <Route path='/register'>
-        <Register />
-      </Route>
-      <Route path='/admin'>
+      {path === "/signin" ? (
+        <Signin
+          isSignedIn={isSignedIn}
+          setIsSignedIn={setIsSignedIn}
+          setUser={setUser}
+          setPath={setPath}
+        />
+      ) : path === "/register" ? (
+        <Register
+          isSignedIn={isSignedIn}
+          setIsSignedIn={setIsSignedIn}
+          setUser={setUser}
+          setPath={setPath}
+        />
+      ) : path === "/admin" ? (
         <ErrorBoundry>
-        <Admin  />
+          <Admin setPath={setPath} />
         </ErrorBoundry>
-      </Route>    
-      <Route path='/dealers'>
+      ) : path === "/dealers" ? (
         <ErrorBoundry>
-        <Dealers  />
+          <Dealers setPath={setPath} />
         </ErrorBoundry>
-      </Route>   
+      ) : null}
+
       {/* <Route exact path="/">
         <RecordList />
       </Route> */}
@@ -40,8 +52,7 @@ const App = () => {
       <Route path="/create">
         <Create /> */}
       {/* </Route> */}
-      </Container>
-    
+    </Container>
   );
 };
 

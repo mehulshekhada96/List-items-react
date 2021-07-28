@@ -32,7 +32,9 @@ a{
 .footer{
     margin: 0.5rem 0
 }
-
+b.nav-link{
+    padding: 0 0.5rem;
+}
 @media screen and (min-width: 1024px) {
     .navbar{
         margin: 1rem -5rem;
