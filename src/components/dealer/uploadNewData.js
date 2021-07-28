@@ -8,7 +8,8 @@ function UploadData(props) {
     setSelectedFile(event.target.files[0]);
   
   };
-  const handleSubmission = () => {
+  const handleSubmission = (e) => {
+    e.preventDefault();
     const formData = new FormData();
 
     formData.append("csvFile", selectedFile);

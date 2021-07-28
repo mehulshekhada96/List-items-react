@@ -65,7 +65,7 @@ function Dealers({ path, setPath }) {
   // console.log(filterData);
   const [showEditForm, setShowEditForm] = useState(false);
   const editDealerForm = (event) => {
-    event.preventDefault();
+    
     // console.log(event.target.id);
     setEditId(event.target.id);
     setShowEditForm(!showEditForm);
@@ -151,7 +151,7 @@ function Dealers({ path, setPath }) {
     for (let e of select1) {
       e.style.display = "none";
     }
-  }, [page, deleteId, filterData, sort, count,setPath]);
+  }, [page, deleteId, filterData, sort, count,setPath,showForm, showEditForm]);
   
   function goToPage(event) {
     const pageNumber = event.target.getAttribute("data-page");
@@ -196,7 +196,7 @@ function Dealers({ path, setPath }) {
           </div>
         </form>
         {showForm ? (
-          <AddDataForm setPath={setPath} showform={showForm1} />
+          <AddDataForm setPath={setPath} setShowForm={setShowForm} showform={showForm1} />
         ) : null}
         {showEditForm ? (
           <EditDealerForm
@@ -205,6 +205,7 @@ function Dealers({ path, setPath }) {
             id={editId}
             currentPage={current}
             setPageCurrent={setPageCurrent}
+            setShowEditForm={setShowEditForm}
           />
         ) : null}
         <div className="scroll-to-left">

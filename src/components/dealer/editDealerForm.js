@@ -1,82 +1,80 @@
 import { useState, useEffect } from "react";
 import { $ } from "react-jquery-plugin";
 function EditDealerForm(props) {
-  const { dealers, id, showEditForm, currentPage, setPageCurrent } = props;
+  const { dealers, id, showEditForm, currentPage, setPageCurrent, setPath, setShowEditForm } =
+    props;
 
   const editDealer1 = dealers.find((e) => e._id === id);
   const [editDealer, SetEditDealer] = useState(false);
   const [customerCode, setCustomerCode] = useState("");
   const [company, setCompany] = useState("");
-  const [shipToName, setShipToName] = useState('');
-  const [physicalAddress, setPhysicalAddress]=useState('')
-  const [city, setCity]=useState('')
-  const [state, setState]=useState('')
-  const [zip, setZip]=useState('')
-  const [areaCode, setAreaCode]=useState('')
-  const [phoneExchange, setPhoneExchange]=useState('')
-  const [physicalPhone, setPhysicalPhone]=useState('')
-  const [emailAddress, setEmailAdd1]=useState('')
-  const [emailAddress2, setEmailAdd2]=useState('')
-  const [profileDesc, setProfileDesc]=useState('')
-  const [dist, setDist]=useState('')
-  const [account, setAccount]=useState('')
-  const [display, setDisplay]=useState('')
-  const [date, setDate]=useState('')
-  const [endDate, setEndDate]=useState('')
-  const [crm, setCrm]=useState('')
-  const [website, setWebsite]=useState('')
-  const [lat, setLat]=useState('')
-  const [long, setLong]=useState('')
-
-  
+  const [shipToName, setShipToName] = useState("");
+  const [physicalAddress, setPhysicalAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [areaCode, setAreaCode] = useState("");
+  const [phoneExchange, setPhoneExchange] = useState("");
+  const [physicalPhone, setPhysicalPhone] = useState("");
+  const [emailAddress, setEmailAdd1] = useState("");
+  const [emailAddress2, setEmailAdd2] = useState("");
+  const [profileDesc, setProfileDesc] = useState("");
+  const [dist, setDist] = useState("");
+  const [account, setAccount] = useState("");
+  const [display, setDisplay] = useState("");
+  const [date, setDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [crm, setCrm] = useState("");
+  const [website, setWebsite] = useState("");
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
 
   useEffect(() => {
-    // SetEditDealer(editDealer1);
-    // console.log("refreshed");
-    // setCustomerCode(editDealer["Customer Code"]);
-    // setCompany(editDealer["Company Name"]);
-    // setShipToName(editDealer["Ship to Name"]);
-    // setPhysicalAddress(editDealer["Physical Address Line 1"]);
-    // setCity(editDealer["City"]);
-    // setState(editDealer["State"]);
-    // setZip(editDealer["Zip"]);
-    // setAreaCode(editDealer["Area Code"]);
-    // setPhoneExchange(editDealer["Phone Exchange"]);
-    // setPhysicalPhone(editDealer['Physical Phone']);
-    // setEmailAdd1(editDealer['EMAIL_ADDRESS'])
-    // setEmailAdd2(editDealer['EMAIL_ADDRESS_2'])
-    // setProfileDesc(editDealer['Profile Desc']);
-    // setDist(editDealer['Dist']);
-    // setAccount(editDealer['Account']);
-    // setDisplay(editDealer['Display']);
-    // setDate(editDealer['Date']);
-    // setEndDate(editDealer['EndDate']);
-    // setCrm(editDealer['CRM']);
-    // setWebsite(editDealer['Website']);
-    // setLat(editDealer['Lat']);
-    // setLong(editDealer['Long'])
+    SetEditDealer(editDealer1);
+    console.log("refreshed");
+    setCustomerCode(editDealer["Customer Code"]);
+    setCompany(editDealer["Company Name"]);
+    setShipToName(editDealer["Ship to Name"]);
+    setPhysicalAddress(editDealer["Physical Address Line 1"]);
+    setCity(editDealer["City"]);
+    setState(editDealer["State"]);
+    setZip(editDealer["Zip"]);
+    setAreaCode(editDealer["Area Code"]);
+    setPhoneExchange(editDealer["Phone Exchange"]);
+    setPhysicalPhone(editDealer["Physical Phone"]);
+    setEmailAdd1(editDealer["EMAIL_ADDRESS"]);
+    setEmailAdd2(editDealer["EMAIL_ADDRESS_2"]);
+    setProfileDesc(editDealer["Profile Desc"]);
+    setDist(editDealer["Dist"]);
+    setAccount(editDealer["Account"]);
+    setDisplay(editDealer["Display"]);
+    setDate(editDealer["Date"]);
+    setEndDate(editDealer["EndDate"]);
+    setCrm(editDealer["CRM"]);
+    setWebsite(editDealer["Website"]);
+    setLat(editDealer["Lat"]);
+    setLong(editDealer["Long"]);
     let bodyHeight = document.body.scrollHeight;
     $(".overlay").css({ height: bodyHeight });
-    $('input[type=text]').keyup(function () {
+    $("input[type=text]").keyup(function () {
       $(this).val($(this).val().toUpperCase());
     });
   }, [editDealer1, editDealer]);
-  const reset = () => {
-    SetEditDealer(editDealer1);
-  };
-  const clearForm = () => {
-    SetEditDealer(false);
-  };
-  
+  // const reset = () => {
+  //   SetEditDealer(editDealer1);
+  // };
+  // const clearForm = () => {
+  //   SetEditDealer(false);
+  // };
 
   const data = {
     customerCode: customerCode,
     company: company,
-    shipToName : shipToName,
+    shipToName: shipToName,
     physicalAddress: physicalAddress,
     city: city,
-    state : state,
-    zip :zip,
+    state: state,
+    zip: zip,
     areaCode,
     phoneExchange,
     physicalPhone,
@@ -90,33 +88,34 @@ function EditDealerForm(props) {
     endDate,
     crm,
     website,
-    lat, 
+    lat,
     long,
-    pageNumber: currentPage
-
+    pageNumber: currentPage,
   };
   console.log(currentPage);
-  const sendEditFromData = () => {
-    setPageCurrent(currentPage)
+  const sendEditFromData = (e) => {
+    e.preventDefault()
+    alert("sending");
+    setPageCurrent(currentPage);
     fetch(`http://localhost:5000/dealers/update-dealer-data/${id}`, {
       method: "POST",
-      mode: "cors",
+      // mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
-      // .then((response) => response.json())
-      // .then((res) => console.log(res))
-      // .catch((err) => console.log(err));
+      .then((response) => response.json())
+      .then((res) => {
+        alert(res);
+        setPath("/dealers");
+      })
+      .catch((err) => console.log(err));
+      setShowEditForm(false)
   };
   return (
     <>
-      <form
-        onSubmit={sendEditFromData}
-      
-        className="form-control dealer-form"
-      >
+      <form onSubmit={sendEditFromData} className="form-control dealer-form">
         <input type="hidden" name="pageNumber" id="pageNumber" />
 
         <div className="inputDiv1">
@@ -405,9 +404,7 @@ function EditDealerForm(props) {
             onChange={(event) => {
               setLat(event.target.value);
             }}
-            defaultValue={
-              editDealer["Lat"] ? editDealer["Lat"] : null
-            }
+            defaultValue={editDealer["Lat"] ? editDealer["Lat"] : null}
           />
         </div>
         <div className="inputDiv">
@@ -419,23 +416,19 @@ function EditDealerForm(props) {
             onChange={(event) => {
               setLong(event.target.value);
             }}
-            defaultValue={
-              editDealer["Long"] ? editDealer["Long"] : null
-            }
+            defaultValue={editDealer["Long"] ? editDealer["Long"] : null}
           />
         </div>
 
         <div className="inputDiv1 dealer-form-btn">
-          <button type="reset" className="btn btn-success" onClick={clearForm}>
+          {/* <button type="reset" className="btn btn-success" onClick={clearForm}>
             Clear
           </button>
 
           <button type="reset" className="btn btn-success" onClick={reset}>
             Reset
-          </button>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
+          </button> */}
+          <button className="btn btn-primary">Submit</button>
           <span className="btn btn-danger" onClick={showEditForm} id="cancle">
             Cancle
           </span>

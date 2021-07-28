@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { $ } from "react-jquery-plugin";
 
 function AddDataForm(props) {
-  const { showform, setPath } = props;
+  const { showform, setPath,  setShowForm } = props;
   const [customerCode, setCustomerCode] = useState("");
   const [company, setCompany] = useState("");
   const [shipToName, setShipToName] = useState("");
@@ -66,6 +66,7 @@ function AddDataForm(props) {
         setPath("/dealers");
       })
       .catch((error) => alert(error));
+      setShowForm(false)
   };
   useEffect(() => {
     let bodyHeight = document.body.scrollHeight;
